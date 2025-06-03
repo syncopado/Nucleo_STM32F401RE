@@ -21,6 +21,8 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include <string.h>
+#include <stdio.h>
 
 /* USER CODE END Includes */
 
@@ -96,7 +98,10 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
 
-  const char* message = "Whatever! \n";
+  uint8_t buf[12];			// unsigned 8bit integer, hence 1 byte int
+//  const char* message = "Whatever! \n";
+  strcpy((char*)buf, "Whatever!\r\n");		// typecasted to char*
+
   uint32_t now = 0, last_print = 0;
 
   while (1)
@@ -108,7 +113,7 @@ int main(void)
 
 	  if (now - last_print >= 1000) {
 		  HAL_GPIO_TogglePin(GREEN_LED_GPIO_Port, GREEN_LED_Pin);
-		  HAL_UART_Transmit(&huart2, (uint8_t *)message, 11, 1000);
+		  HAL_UART_Transmit(&huart2, buf, strlen((char*)buf), 1000);
 		  last_print = now;
 	  }
 
